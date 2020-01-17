@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <style>
+      input {
+        width: 50rem;
+        max-width: 100%;
+        height: 1.5rem;
+        padding: 0 0.5rem;
+      }
+    </style>
+    <h1>Place lunch form link in box below and click submit</h1>
+    <form>
+      <input name="lunchlink"></input>
+      <p><button>Submit</button></p>
+    </form>
+    <script>
+      let socket = new WebSocket('wss://1v4j1j98ob.execute-api.ap-south-1.amazonaws.com/lunch');
+
+      socket.onopen = e => {
+        console.log('socket open');
+      }
+
+      socket.onclose = e => {
+        console.log('socket closed');
+      }
+
+      socket.onerror = e => {
+        console.log('socket error');
+      }
+
+      document.querySelector('form').addEventListener('submit', submitLunchForm, false);
+
+      function submitLunchForm(e) {
+        e.preventDefault();
+
+        const formUrl = this.querySelector('input').value;
+
+        socket.send(JSON.stringify({ action: 'name', payload: formUrl }));
+        socket.send(JSON.stringify({ action: 'lunch', payload: formUrl }));
+      }
+    </script>
+  </body>
+</html>
