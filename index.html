@@ -20,11 +20,15 @@
         display: block;
       }
     </style>
-    <h1>Place lunch form link in box below and click submit</h1>
+    
     <form>
+      <h1>Place lunch form link in box below and click submit</h1>
       <input name="lunchlink"></input>
       <p><button>Submit</button></p>
     </form>
+    <div class="submitMessage">
+      <h1>You've submitted already. wait two more days before next submission</h1>
+    </div>
     <script>
       let socket = new WebSocket('wss://1v4j1j98ob.execute-api.ap-south-1.amazonaws.com/lunch');
 
