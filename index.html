@@ -8,6 +8,17 @@
         height: 1.5rem;
         padding: 0 0.5rem;
       }
+      .submitted form {
+        display: none;
+      }   
+
+      .submitMessage {
+        display: none;
+      }   
+
+      .submitted .submitMessage {
+        display: block;
+      }
     </style>
     <h1>Place lunch form link in box below and click submit</h1>
     <form>
@@ -38,7 +49,24 @@
 
         socket.send(JSON.stringify({ action: 'name', payload: formUrl }));
         socket.send(JSON.stringify({ action: 'lunch', payload: formUrl }));
+        
+        localStorage.setItem('lastSubmission', (new Date()).toISOString());
+        checkSubmission();
       }
+      
+      function checkSubmission() {
+        let lastSubmission = localStorage.getItem('lastSubmission');
+        const TWO_DAYS = 60 * 60 * 24 * 1000 * 2;
+
+        if (lastSubmission && (new Date()).getTime() < (new Date(lastSubmission)).getTime() + TWO_DAYS) {
+          document.body.classList.add('submitted');
+        }
+        else {
+          document.body.classList.remove('submitted');
+        }
+      }
+
+      checkSubmission();
     </script>
   </body>
 </html>
